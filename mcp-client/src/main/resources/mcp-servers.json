@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx.cmd",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/P3DR0/Desktop/Interaction-Avancée/mcp-project"
+      ]
+    }
+  }
+}
