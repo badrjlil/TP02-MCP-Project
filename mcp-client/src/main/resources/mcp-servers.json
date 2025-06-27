@@ -7,6 +7,17 @@
         "@modelcontextprotocol/server-filesystem",
         "/Users/P3DR0/Desktop/Interaction-Avancée/mcp-project"
       ]
+    },
+    "Python_MCP_Server" : {
+      "command" : "uv",
+      "args" : [
+        "run",
+        "--with",
+        "mcp[cli]",
+        "mcp",
+        "run",
+        "/Users/P3DR0/Desktop/Interaction-Avancée/mcp-project/mcp-python-server/server.py"
+      ]
     }
   }
 }
