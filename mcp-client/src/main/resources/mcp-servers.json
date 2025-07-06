@@ -5,7 +5,7 @@
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "/Users/P3DR0/Desktop/Interaction-Avancée/mcp-project"
+        "/Users/P3DR0/Desktop/Interaction-Avancée/TP02-MCP-Project"
       ]
     },
     "Python_MCP_Server" : {
@@ -16,7 +16,7 @@
         "mcp[cli]",
         "mcp",
         "run",
-        "/Users/P3DR0/Desktop/Interaction-Avancée/mcp-project/mcp-python-server/server.py"
+        "/Users/P3DR0/Desktop/Interaction-Avancée/TP02-MCP-Project/mcp-python-server/server.py"
       ]
     }
   }

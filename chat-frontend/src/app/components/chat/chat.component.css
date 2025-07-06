@@ -1,0 +1,367 @@
+/* --- Global & Container Styles --- */
+.container-fluid {
+  background-color: #f5f7fa; /* Light grey background for the whole page */
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  display: flex;
+  align-items: center; /* Vertically center the chat card */
+  justify-content: center; /* Horizontally center the chat card */
+  padding: 20px; /* Add some overall padding */
+}
+
+/* --- Card Sizing Adjustment --- */
+.row.justify-content-center {
+  width: 100%; /* Ensure the row takes full width */
+  margin: 0; /* Remove default row margins */
+}
+
+.col-md-8.col-lg-6 {
+  /* This targets the Bootstrap column classes you have.
+     To make the chatbot wider, we'll override their max-width.
+     Ideally, you'd remove these classes from the HTML if you want
+     full control of width via the .card class below. */
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: 0; /* Remove column padding */
+}
+
+.card {
+  border-radius: 20px; /* Even more rounded card corners */
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Stronger, softer shadow for a floating effect */
+  background-color: #ffffff; /* White background for the card */
+  border: none; /* Remove default card border */
+  width: 100%; /* Make card take full width of its parent */
+  max-width: 900px; /* **Set a new, larger max-width for the chatbot** */
+  margin: auto; /* Center the card horizontally within its new max-width */
+}
+
+/* --- Card Header Styles --- */
+.card-header {
+  background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%); /* Gradient header */
+  color: white;
+  padding: 20px 25px; /* More padding */
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em; /* Slightly larger header text */
+  position: relative;
+  overflow: hidden;
+}
+
+.card-header h4 {
+  margin-bottom: 0;
+  font-weight: 600; /* Bolder header text */
+  z-index: 1; /* Ensure text is above background effects */
+}
+
+.card-header .bi-robot {
+  font-size: 1.5em; /* Larger icon */
+  margin-right: 12px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Add a subtle pattern or overlay to the header for more interest */
+.card-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="dots" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.1)"></circle></pattern></defs><rect width="100%" height="100%" fill="url(#dots)"></rect></svg>');
+  opacity: 0.8;
+  z-index: 0;
+}
+
+/* --- Chat Container & Message Styles --- */
+.chat-container {
+  height: 65vh; /* Slightly reduced height for better overall balance */
+  overflow-y: auto;
+  background-color: #edf2f7; /* Very light blue-grey background */
+  padding: 20px; /* More generous padding */
+  scroll-behavior: smooth;
+  border-bottom: 1px solid #e2e8f0; /* Subtle separator from footer */
+  display: flex; /* Enable flexbox for messages */
+  flex-direction: column; /* Stack messages vertically */
+}
+
+.message {
+  margin-bottom: 18px; /* More space between messages */
+  padding: 14px 20px;
+  border-radius: 22px; /* Even more rounded */
+  max-width: 75%; /* Slightly narrower bubbles */
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Softer shadow */
+  animation: slideIn 0.4s ease-out forwards; /* More pronounced slide-in animation */
+  opacity: 0; /* Start invisible for animation */
+  transform: translateY(15px); /* Start below for slide-in */
+}
+
+/* Animation for individual messages to appear sequentially */
+.message:nth-last-child(1):not(.ai-typing-message) { animation-delay: 0.1s; } /* Animate only last message, not typing indicator */
+.message:nth-last-child(2):not(.ai-typing-message) { animation-delay: 0.2s; }
+.message:nth-last-child(3):not(.ai-typing-message) { animation-delay: 0.3s; }
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user-message {
+  background-image: linear-gradient(to right, #007bff 0%, #0056b3 100%); /* Blue gradient for user */
+  color: white;
+  margin-left: auto; /* Push user message to the right */
+  text-align: left;
+  border-bottom-right-radius: 8px; /* Slight "tail" effect */
+  transform-origin: right bottom; /* For potential future scale/bounce effects */
+}
+
+.ai-message {
+  background-color: #ffffff; /* Pure white for AI messages */
+  color: #333;
+  margin-right: auto; /* Push AI message to the left */
+  border-bottom-left-radius: 8px; /* Slight "tail" effect */
+  transform-origin: left bottom; /* For potential future scale/bounce effects */
+}
+
+.message strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95em;
+  font-weight: 700; /* Bolder sender name */
+  color: rgba(255, 255, 255, 0.9); /* Slightly more opaque for user */
+}
+
+.ai-message strong {
+  color: #6a11cb; /* Primary color for AI label */
+}
+
+/* --- AI Typing Message Styles (New) --- */
+.ai-typing-message {
+  background-color: #ffffff; /* Same as ai-message */
+  color: #333;
+  margin-right: auto;
+  border-bottom-left-radius: 8px;
+  max-width: 150px; /* Make the typing bubble smaller */
+  padding: 10px 15px; /* Adjust padding for smaller bubble */
+  display: flex; /* Use flex for alignment of label and dots */
+  align-items: center;
+  gap: 8px; /* Space between label and dots */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+  margin-top: 5px; /* Adjust margin if needed to align well */
+}
+
+.ai-typing-message .ai-typing-label {
+  color: #6a11cb; /* Color for "AI:" label */
+  font-weight: 700;
+  margin-bottom: 0; /* Remove strong's default margin-bottom */
+}
+
+.typing-indicator-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Space between individual dots */
+  height: 1em; /* Ensure it takes up vertical space */
+  line-height: 1; /* Align dots better */
+}
+
+.typing-indicator-dots span {
+  width: 6px;
+  height: 6px;
+  background-color: #778899; /* Color of the dots */
+  border-radius: 50%;
+  opacity: 0; /* Start hidden */
+  animation: dot-bounce 1.4s infinite ease-in-out; /* Apply bounce animation */
+}
+
+/* Delay for each individual dot */
+.typing-indicator-dots span:nth-child(1) {
+  animation-delay: 0s;
+}
+.typing-indicator-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-indicator-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dot-bounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+    opacity: 0; /* Dots are hidden at start/end of cycle */
+  }
+  40% {
+    transform: translateY(-5px); /* Lift up */
+    opacity: 1; /* Fully visible at peak of bounce */
+  }
+}
+
+
+/* --- Input & Footer Styles --- */
+.message-input {
+  resize: none;
+  border-radius: 28px; /* Even more rounded */
+  padding: 12px 22px;
+  border: 2px solid #e0e6ed; /* Slightly thicker border */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  font-size: 1.05em; /* Slightly larger text */
+}
+
+.message-input:focus {
+  border-color: #6a11cb; /* Focus color matching gradient start */
+  box-shadow: 0 0 0 0.3rem rgba(106, 17, 203, 0.2); /* Glow effect */
+  background-color: #ffffff; /* Ensure white background on focus */
+}
+
+.card-footer {
+  background-color: #fcfdfe; /* Almost white footer */
+  border-top: 1px solid #e2e8f0;
+  padding: 20px 25px; /* More padding */
+}
+
+.card-footer .d-flex {
+  align-items: center; /* Align input and button vertically */
+}
+
+/* Style for the send button */
+.btn-primary {
+  background-image: linear-gradient(to right, #2575fc 0%, #6a11cb 100%); /* Reverse gradient for button */
+  border: none; /* No border for gradient button */
+  border-radius: 50%;
+  width: 55px; /* Slightly larger button */
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(37, 117, 252, 0.3); /* Softer, more vibrant shadow */
+  transition: all 0.3s ease;
+  margin-left: 10px; /* Space from input */
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.05); /* More pronounced lift and slight scale on hover */
+  box-shadow: 0 6px 15px rgba(37, 117, 252, 0.4);
+  background-image: linear-gradient(to right, #1a60e0 0%, #5a0ebf 100%); /* Slightly darker gradient on hover */
+}
+
+.btn-primary:disabled {
+  background-image: linear-gradient(to right, #a8d0ff 0%, #c9a7ed 100%); /* Muted gradient when disabled */
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.8;
+}
+
+.btn-primary .bi {
+  font-size: 1.4rem; /* Larger icon in button */
+  color: white; /* Ensure icon is white */
+}
+
+/* --- Markdown & Content Styles --- */
+.message pre {
+  background-color: #eef3f8; /* Light blue-grey for code blocks */
+  border: 1px solid #d9e2ec;
+  border-radius: 10px; /* More rounded code blocks */
+  padding: 12px;
+  margin: 12px 0;
+  overflow-x: auto;
+  font-size: 0.95em;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.ai-message pre {
+  background-color: #f7f9fb; /* Lighter code block for AI */
+}
+
+.message code {
+  background-color: #e2eaf4; /* Distinct background for inline code */
+  padding: 4px 7px;
+  border-radius: 5px;
+  font-family: 'Fira Code', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.9em;
+  color: #36454F; /* Darker text for code */
+}
+
+.message pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit; /* Inherit color from pre block */
+}
+
+.message blockquote {
+  border-left: 6px solid #2575fc; /* Thicker, vibrant border */
+  margin: 12px 0;
+  padding-left: 18px;
+  color: #4a5568; /* Darker text for blockquotes */
+  font-style: italic;
+  background-color: #f0f4f8; /* Light background for blockquote */
+  border-radius: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.message ul,
+.message ol {
+  margin: 12px 0;
+  padding-left: 30px;
+}
+
+.message li {
+  margin-bottom: 6px;
+  line-height: 1.6; /* Better line spacing for lists */
+}
+
+.message h1,
+.message h2,
+.message h3,
+.message h4,
+.message h5,
+.message h6 {
+  margin: 18px 0 12px 0;
+  color: #1a202c; /* Even darker color for headings */
+  font-weight: 700; /* Bolder headings */
+}
+
+.text-muted {
+  font-size: 0.85em;
+  margin-top: 8px;
+  display: block;
+  text-align: center;
+  color: #718096; /* Softer muted text color */
+}
+
+/* --- Scrollbar Customization --- */
+.chat-container::-webkit-scrollbar {
+  width: 10px; /* Thicker scrollbar */
+}
+
+.chat-container::-webkit-scrollbar-track {
+  background: #edf2f7;
+  border-radius: 10px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(to bottom, #2575fc, #6a11cb); /* Gradient scrollbar thumb */
+  border-radius: 10px;
+  border: 2px solid #edf2f7; /* Adds a border for a more defined thumb */
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(to bottom, #1a60e0, #5a0ebf);
+}
+
+/* --- Accessibility & Transitions --- */
+*:focus-visible {
+  outline: 3px solid #2575fc; /* More prominent focus outline */
+  outline-offset: 3px;
+  border-radius: 5px; /* Apply to rounded elements */
+}
+
+.card-body, .card-footer {
+  transition: background-color 0.3s ease;
+}
