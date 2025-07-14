@@ -15,6 +15,7 @@ Le **Serveur MCP** est un système backend conçu pour fournir des informations 
 
 ---
 
+
 ## 🚀 Fonctionnement
 
 ### Point d’entrée (Endpoint)
